@@ -23,7 +23,7 @@ public:
             while(l<r)
             {
                 if(nums[i]+nums[l]+nums[r]==0)
-                {
+                { 
                     ans.push_back(vector<int>{nums[i],nums[l],nums[r]});
                     while(l<r && nums[l]==nums[l+1])l++;/* Skipping as we will get same set of solutions */
                     while(l<r && nums[r]==nums[r-1])r--;/* Skipping as we will get same set of solutions */
@@ -45,3 +45,50 @@ Sample output : [[-1,-1,2],[-1,0,1]]
 Time Complexity : O(N*N)
 Space Complexity : O(1)
 */
+
+
+// ALTER CODE-->
+
+// Runtime: 82 ms
+// Memory Usage: 21.9 MB
+
+class Solution {
+public:
+    
+    #define pb push_back
+    vector<vector<int>> ans;
+    void th_sum(vector<int> &nums){
+        for(int i =0 ; i<nums.size()-2 ; i++){
+            if(i==0 || nums[i] != nums[i-1]){
+                //is upar wale se i repeat nhi hoga
+                int j = i+1;
+                int k = nums.size()-1;
+                while(j<k){
+                    int sum_of_3 = nums[i]+nums[j]+nums[k];
+                 /*condition no. 1*/   if(sum_of_3==0){
+                        ans.pb({nums[i],nums[j],nums[k]});
+                        while(j<k and nums[j]==nums[j+1]){
+                            j++;
+                        }
+                        while(j<k and nums[k]==nums[k-1]){
+                            k--;
+                        }
+                        j++;
+                        k--;
+                    }
+                /*condition no. 2*/ else if(sum_of_3<0){
+                    j++;
+                }
+                    else{
+                        k--;
+                    }
+                }
+            }
+        } 
+    }
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        th_sum(nums);
+        return ans;
+    }
+};
